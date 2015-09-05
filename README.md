@@ -7,6 +7,7 @@ zrpeng
 history
 -------------------
 版本    说明
+
 0.02    2015-6-6 准备增加内存管理，定时器和电源模块.
         mem_malloc,mem_free
         evtimer_add,evtimer_del,evtimer_set
