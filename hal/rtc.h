@@ -4,14 +4,14 @@
 //时间结构体
 typedef struct
 {
-	vu8 hour;
-	vu8 min;
-	vu8 sec;
-	//公历日月年周
-	vu16 w_year;
-	vu8  w_month;
-	vu8  w_date;
-	vu8  week;
+    vu8 hour;
+    vu8 min;
+    vu8 sec;
+    //公历日月年周
+    vu16 w_year;
+    vu8  w_month;
+    vu8  w_date;
+    vu8  week;
 } _calendar_obj;
 extern _calendar_obj calendar;	//日历结构体
 

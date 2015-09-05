@@ -12,25 +12,25 @@
 
 typedef struct
 {
-	TMsm *me;
-	list_t list;
-	uint8_t flag;
-	uint16_t timeout;		/* ms */
-	uint16_t reload_timeout;
-	
-	TEvt e;
-}evtimer_t;
+    TMsm *me;
+    list_t list;
+    uint8_t flag;
+    uint16_t timeout;		/* ms */
+    uint16_t reload_timeout;
+
+    TEvt e;
+} evtimer_t;
 
 typedef struct
 {
-	TMsm *me;
-	list_t list;
-	uint8_t flag;
-	uint16_t timeout;
-	
-	uint32_t counter;
-	uint8_t (*proc)(uint32_t counter);
-}cbtimer_t;
+    TMsm *me;
+    list_t list;
+    uint8_t flag;
+    uint16_t timeout;
+
+    uint32_t counter;
+    uint8_t (*proc)(uint32_t counter);
+} cbtimer_t;
 
 
 extern uint32_t sys_tick;

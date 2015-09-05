@@ -28,33 +28,33 @@
             2) 输入模式: 0 模拟输入
                          4 浮空输入
                          8 上下拉输入
-        
+
                输出模式: 1 推挽输出，10Mhz
                          2 推挽输出， 2Mhz
                          3 推挽输出，50Mhz
-        
+
                          5 开漏输出，10Mhz
                          6 开漏输出， 2Mhz
                          7 开漏输出，50Mhz
-        
+
                          9 复用推挽，10Mhz
                          a 复用推挽,  2Mhz
                          b 复用推挽, 50Mhz
-        
+
                          d 复用开漏, 10Mhz
                          e 复用开漏,  2Mhz
                          f 复用开漏, 50Mhz
 *******************************************************************************/
 void led_init(void)
 {
-	GPIO_InitTypeDef   GPIO_InitStructure;
+    GPIO_InitTypeDef   GPIO_InitStructure;
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
 }
 
 /*
@@ -64,16 +64,22 @@ void led_init(void)
  */
 void led_ctrl(u8 sel, u8 mode)
 {
-	switch (sel)
-	{
-	case LEDWork:
-		switch (mode)
-		{
-			case LED_ON:	LED0_L;		break;
-			case LED_OFF:	LED0_H;		break;
-			case LED_TOGGLE:LED0_TOGGLE;break;
-		}
-		break;
-		
-	}
+    switch (sel)
+    {
+    case LEDWork:
+        switch (mode)
+        {
+        case LED_ON:
+            LED0_L;
+            break;
+        case LED_OFF:
+            LED0_H;
+            break;
+        case LED_TOGGLE:
+            LED0_TOGGLE;
+            break;
+        }
+        break;
+
+    }
 }

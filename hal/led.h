@@ -4,14 +4,14 @@
 
 enum LED_MODE
 {
-	LED_OFF=0,
-	LED_ON,
-	LED_TOGGLE=2,
+    LED_OFF = 0,
+    LED_ON,
+    LED_TOGGLE = 2,
 };
 
 enum LED_SELECT
 {
-	LEDWork=0,
+    LEDWork = 0,
 };
 
 #define LED0_H			GPIOA->BSRR|=(1<<1)

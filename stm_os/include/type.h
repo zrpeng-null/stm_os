@@ -2,16 +2,16 @@
 #define _TYPE_H_
 
 #if 1
-    #include <stdint.h>
+#include <stdint.h>
 #else
-    typedef  unsigned char      bool_t;     /*  8-bit boolean or logical */
-    typedef  signed   char      int8_t;     /*  8-bit character        */
-    typedef  unsigned char      uint8_t;    /*  8-bit unsigned integer */
-    typedef  signed   short     int16_t;    /* 16-bit   signed integer */
-    typedef  unsigned short     uint16_t;   /* 16-bit unsigned integer */
-    typedef  signed   long      int32_t;    /* 32-bit   signed integer */
-    typedef  unsigned long      uint32_t;   /* 32-bit unsigned integer */
-    typedef  unsigned long long uint64_t;   /* 64-bit   signed integer */
+typedef  unsigned char      bool_t;     /*  8-bit boolean or logical */
+typedef  signed   char      int8_t;     /*  8-bit character        */
+typedef  unsigned char      uint8_t;    /*  8-bit unsigned integer */
+typedef  signed   short     int16_t;    /* 16-bit   signed integer */
+typedef  unsigned short     uint16_t;   /* 16-bit unsigned integer */
+typedef  signed   long      int32_t;    /* 32-bit   signed integer */
+typedef  unsigned long      uint32_t;   /* 32-bit unsigned integer */
+typedef  unsigned long long uint64_t;   /* 64-bit   signed integer */
 #endif
 
 typedef  unsigned int       tick_t;     /* 32 bit or 64 bit unsigned value */
@@ -30,7 +30,7 @@ enum
     ERR_EVENT_EXHAUSTED,
     ERR_TICK_ADD_FAILED,
     ERR_TICK_DELETE_FAILED,
-	ERR_EXISTING_TIMER
+    ERR_EXISTING_TIMER
 };
 
 

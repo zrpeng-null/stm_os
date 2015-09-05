@@ -14,13 +14,13 @@ typedef struct TMsmVtbl TMsmVtbl;
 
 struct TMsmVtbl
 {
-	void (*init)(TMsm *me, TEvt *e);		/* hsm_init or fsm_init */
-	void (*dispatch)(TMsm *me, TEvt *e);	/* hsm_execute or fsm_execute */
+    void (*init)(TMsm *me, TEvt *e);		/* hsm_init or fsm_init */
+    void (*dispatch)(TMsm *me, TEvt *e);	/* hsm_execute or fsm_execute */
 };
 
 struct TMsm
 {
-	const TMsmVtbl *vptr;
+    const TMsmVtbl *vptr;
     state_handler state;
     state_handler temp;
 };

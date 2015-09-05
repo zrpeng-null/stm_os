@@ -2,7 +2,7 @@
 
 uint8_t etimer_add(TMsm *me, signal_t sig, void *para, uint16_t ms)
 {
-	
+
 }
 
 uint8_t etimer_delete(TMsm *me, signal_t sig)
@@ -19,7 +19,7 @@ typedef struct
 	uint16_t timeout;
 	uint8_t flag;
 	pfCBHandler func;
-	
+
 	list_t cbtimer_list;
 }cbtimer_t
 
@@ -36,8 +36,8 @@ uint8_t cbtimer_set(TMsm *me, uint8_t timer_id)
 #include "event_driven.h"
 
 
-list_t evtimer_head={&evtimer_head, &evtimer_head};	//全局的定时器链表
-list_t cbtimer_head={&cbtimer_head, &cbtimer_head};	//cbtimer任务的定时器链表
+list_t evtimer_head = {&evtimer_head, &evtimer_head};	//全局的定时器链表
+list_t cbtimer_head = {&cbtimer_head, &cbtimer_head};	//cbtimer任务的定时器链表
 uint32_t tick_previous;
 
 /******************************************************************************
@@ -51,7 +51,7 @@ uint32_t tick_previous;
  * @ms		超时时间
  * @flag	定时器标志：单触发和重复触发，定时器启动和停止标志
  *
- * return 
+ * return
  */
 uint8_t evtimer_add(TMsm *me, signal_t sig, void *para, uint16_t ms, uint8_t flag)
 {
@@ -59,7 +59,7 @@ uint8_t evtimer_add(TMsm *me, signal_t sig, void *para, uint16_t ms, uint8_t fla
     list_t *head;
     list_t *iter;
 
-	//先判断有没有重复的事件定时器
+    //先判断有没有重复的事件定时器
     head = &evtimer_head;
     iter = head->next;
     while (iter != head)
@@ -73,21 +73,21 @@ uint8_t evtimer_add(TMsm *me, signal_t sig, void *para, uint16_t ms, uint8_t fla
 
         iter = iter->next;
     }
-	
-	//申请一个事件定时器结点,插入
-	t = (evtimer_t*)mmalloc(sizeof(evtimer_t));
-	if (t == NULL)
-	{
-		return ERR_NO_MEMORY;
-	}
-	t->me      = me;
-	t->e.sig   = sig;
-	t->e.para  = para;
-	t->timeout = ms;
-	t->flag    = flag;
-	list_insert(head, &t->list);
 
-	return ERR_SUCCESS;
+    //申请一个事件定时器结点,插入
+    t = (evtimer_t *)mmalloc(sizeof(evtimer_t));
+    if (t == NULL)
+    {
+        return ERR_NO_MEMORY;
+    }
+    t->me      = me;
+    t->e.sig   = sig;
+    t->e.para  = para;
+    t->timeout = ms;
+    t->flag    = flag;
+    list_insert(head, &t->list);
+
+    return ERR_SUCCESS;
 }
 
 /*
@@ -108,15 +108,15 @@ uint8_t evtimer_del(TMsm *me, signal_t sig)
 
         if ((t->me == me) && (t->e.sig == sig))
         {
-			list_delete(&t->list);
-			mfree(t);
+            list_delete(&t->list);
+            mfree(t);
             return ERR_SUCCESS;
         }
 
         iter = iter->next;
     }
-	
-	return ERR_TICK_DELETE_FAILED;	//没有这个事件定时器，返回删除失败
+
+    return ERR_TICK_DELETE_FAILED;	//没有这个事件定时器，返回删除失败
 }
 
 /*
@@ -131,23 +131,23 @@ uint8_t evtimer_set(TMsm *me, signal_t sig, uint8_t flag)
     list_t *head;
     list_t *iter;
 
-	//遍历到指定的事件定时器结点
+    //遍历到指定的事件定时器结点
     head = &evtimer_head;
     iter = head->next;
-	
+
     while (iter != head)
     {
         t =  list_entry (iter, evtimer_t, list);
 
         if ((t->me == me) && (t->e.sig == sig))
         {
-			t->flag = flag;
+            t->flag = flag;
             return ERR_SUCCESS;
         }
 
         iter = iter->next;
     }
-	return ERR_NULL_OBJECT;		//没有这个事件定时器
+    return ERR_NULL_OBJECT;		//没有这个事件定时器
 }
 
 void evtimer_update(void)
@@ -156,49 +156,49 @@ void evtimer_update(void)
     list_t *head;
     list_t *iter;
     list_t *iter_temp;
-	uint32_t elapse_ms;
+    uint32_t elapse_ms;
 
-    
-	//计算消逝的时间
-	if (sys_tick != tick_previous)
-	{
-		elapse_ms = sys_tick - tick_previous;
-		tick_previous = sys_tick;
-	}
-	else
-	{
-		return;	//没有累计消逝时间，直接返回
-	}
 
-	//事件定时器结点消逝了elapse_ms的时间
-	head = &evtimer_head;
+    //计算消逝的时间
+    if (sys_tick != tick_previous)
+    {
+        elapse_ms = sys_tick - tick_previous;
+        tick_previous = sys_tick;
+    }
+    else
+    {
+        return;	//没有累计消逝时间，直接返回
+    }
+
+    //事件定时器结点消逝了elapse_ms的时间
+    head = &evtimer_head;
     iter = head->next;
     while (iter != head)
     {
         t =  list_entry (iter, evtimer_t, list);
-		iter_temp = iter->next;
+        iter_temp = iter->next;
 
-		if (t->flag & TIMER_FLAG_START)		//定时器已经启动
-		{
-			if (t->timeout > elapse_ms)
-			{
-				t->timeout -= elapse_ms;
-			}
-			else
-			{
-				event_end_post((TActive*)t->me, t->e.sig, t->e.para);//发出已经超时的事件
-				if (t->flag & TIMER_FLAG_PERIODIC)		//重复触发定时器，再来一次
-				{
-					t->timeout = t->reload_timeout;
-				}
-				else									//单触发定时器，就删除这个结点
-				{
-					list_delete(&t->list);
-					mfree(t);
-				}
-			}
-		}
-		
+        if (t->flag & TIMER_FLAG_START)		//定时器已经启动
+        {
+            if (t->timeout > elapse_ms)
+            {
+                t->timeout -= elapse_ms;
+            }
+            else
+            {
+                event_end_post((TActive *)t->me, t->e.sig, t->e.para); //发出已经超时的事件
+                if (t->flag & TIMER_FLAG_PERIODIC)		//重复触发定时器，再来一次
+                {
+                    t->timeout = t->reload_timeout;
+                }
+                else									//单触发定时器，就删除这个结点
+                {
+                    list_delete(&t->list);
+                    mfree(t);
+                }
+            }
+        }
+
         iter = iter_temp;
     }
 }
@@ -209,7 +209,7 @@ void evtimer_update(void)
 */
 uint8_t cbtimer_add(TMsm *me)
 {
-	return 0;
+    return 0;
 }
 
 

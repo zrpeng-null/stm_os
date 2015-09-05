@@ -70,7 +70,7 @@ void event_init (void)
 uint8_t event_post (TActive *act, signal_t sig, void *para, uint8_t opt_send)
 {
     TActiveCB *acb = &activeCBs[act->prio];
-	PORT_SR_ALLOC();
+    PORT_SR_ALLOC();
 
     PORT_CPU_DISABLE();
 
@@ -240,13 +240,13 @@ void event_sched (void)
     TEvt evt;
     uint8_t y;
     uint8_t prio_highest_rdy;
-	uint8_t i;
+    uint8_t i;
     PORT_SR_ALLOC();
-	
-	/* init control block */
-	event_init();
-	
-	/* init state machine */
+
+    /* init control block */
+    event_init();
+
+    /* init state machine */
     for (i = 0; i < CFG_MAX_ACTIVE_OBJECT; i++)
     {
         act = activeCBs[i].act;
@@ -255,9 +255,9 @@ void event_sched (void)
 
     while (1)
     {
-		/* update timer(evtimer & cbtimer) list. */
-		evtimer_update();
-		
+        /* update timer(evtimer & cbtimer) list. */
+        evtimer_update();
+
         PORT_CPU_DISABLE();
 
         if (rdy_grp)                /* anyone active object get events. */
@@ -291,7 +291,7 @@ void event_sched (void)
             PORT_CPU_ENABLE();
 
             /* process this event */
-			act->super.vptr->dispatch(&act->super, &evt);
+            act->super.vptr->dispatch(&act->super, &evt);
         }
 #ifdef POWER_SAVING
         else
@@ -304,14 +304,14 @@ void event_sched (void)
 
             if (rdy_grp == 0)
             {
-				PORT_CPU_ENABLE();
-				
+                PORT_CPU_ENABLE();
+
                 event_user();
             }
-			else
-			{
-				PORT_CPU_ENABLE();
-			}
+            else
+            {
+                PORT_CPU_ENABLE();
+            }
         }
 #endif
     }

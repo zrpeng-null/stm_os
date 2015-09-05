@@ -56,11 +56,11 @@ void fsm_execute (TMsm *me, TEvt *e)
  */
 void fsm_ctor(TMsm *me, state_handler initial)
 {
-	static const TMsmVtbl vtbl = {fsm_init, fsm_execute};		/* 创建虚表 */
-	
-	me->vptr = &vtbl;
-	me->state = 0;
-	me->temp = initial;
+    static const TMsmVtbl vtbl = {fsm_init, fsm_execute};		/* 创建虚表 */
+
+    me->vptr = &vtbl;
+    me->state = 0;
+    me->temp = initial;
 }
 
 /*
@@ -423,9 +423,9 @@ uint8_t hsm_top (TMsm *me, TEvt *e)
  */
 void hsm_ctor(TMsm *me, state_handler initial)
 {
-	static const TMsmVtbl vtbl = {hsm_init, hsm_execute};		/* 创建虚表 */
-	
-	me->vptr = &vtbl;
-	me->state = hsm_top;
-	me->temp = initial;
+    static const TMsmVtbl vtbl = {hsm_init, hsm_execute};		/* 创建虚表 */
+
+    me->vptr = &vtbl;
+    me->state = hsm_top;
+    me->temp = initial;
 }

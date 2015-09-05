@@ -11,16 +11,16 @@
 --注明      : 1) 本模块是STM32的核心程序，包含了内存地址映射，NVIC向量控制器，MDK的类型定义，
                  其他的模块程序只要有涉及这些的，都要包含 #include"sys.h"
 *******************************************************************************
---修改历史：1) 
+--修改历史：1)
 ******************************************************************************/
 #ifndef _SYS_H_
 #define _SYS_H_
 #include "stm32f10x.h"
 
 //位带操作,IO口操作宏定义
-#define BITBAND(addr, bitnum)    ((addr&0xF0000000)+0x2000000+((addr&0xFFFFF)<<5)+(bitnum<<2)) 
-#define MEM_ADDR(addr)           *((volatile unsigned long *)(addr)) 
-#define BIT_ADDR(addr, bitnum)   MEM_ADDR(BITBAND(addr,bitnum)) 
+#define BITBAND(addr, bitnum)    ((addr&0xF0000000)+0x2000000+((addr&0xFFFFF)<<5)+(bitnum<<2))
+#define MEM_ADDR(addr)           *((volatile unsigned long *)(addr))
+#define BIT_ADDR(addr, bitnum)   MEM_ADDR(BITBAND(addr,bitnum))
 
 //IO口地址映射
 #define GPIOA_ODR_Addr    (GPIOA_BASE+12) //0x4001080C 
@@ -58,7 +58,7 @@
 //JTAG模式
 #define JTAG_SWD_DISABLE   0X02
 #define SWD_ENABLE         0X01
-#define JTAG_SWD_ENABLE    0X00	
+#define JTAG_SWD_ENABLE    0X00
 
 void mco_out(void);
 void jtag_set(u8 mode);
